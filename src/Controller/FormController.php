@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class FormController extends AbstractController
 {
@@ -42,22 +43,26 @@ class FormController extends AbstractController
             $em->persist($fileForm);
             $em->flush();
 
-            return $this->redirectToRoute('forms');
+            $this->addFlash(
+                'notice', 'Form submitted!'
+            );
+
+            return $this->redirectToRoute('form');
         }
 
         return $this->render('form/index.html.twig', [
             'controller_name' => 'FormController',
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/forms", name="forms")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function forms(EntityManagerInterface $em)
     {
         $forms = $em->getRepository(Form::class)->findAll();
-
 
         return $this->render('form/forms.html.twig', [
             'forms' => $forms

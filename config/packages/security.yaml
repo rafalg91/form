@@ -5,7 +5,7 @@ security:
         backend_users:
             memory:
                 users:
-                    admin: { password: '$2y$13$OfD5RN3Z0wWmwpD9DXYa2ulvAMV/7rrRXS2jRx0/dS6nIw3IwFh2K' }
+                    admin: { password: '$2y$13$OfD5RN3Z0wWmwpD9DXYa2ulvAMV/7rrRXS2jRx0/dS6nIw3IwFh2K', roles: ['ROLE_ADMIN'] }
 
     firewalls:
         dev:
